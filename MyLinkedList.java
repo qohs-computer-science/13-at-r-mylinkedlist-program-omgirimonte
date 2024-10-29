@@ -36,7 +36,7 @@ public class MyLinkedList
 
     public boolean add(Object obj)// – adds a ListNode element to the end of the LinkedList, always returns true.
     {
-       ListNode temp = head;
+       ListNode temp = head.getValue();
        if (head!=null){
             while(temp.getNext()!=null){
                     temp = temp.getNext();
@@ -54,7 +54,7 @@ public class MyLinkedList
 
     public boolean addLast(Object obj) //– adds a ListNode element to the end of the LinkedList
     {
-        ListNode temp = head;
+        ListNode temp = head.getValue();
         while(temp.getNext()!=null){
             temp = temp.getNext();
         }
@@ -64,12 +64,43 @@ public class MyLinkedList
 
     public Object set(int i, Object obj) //– changes the information stored as the value of the ListNode element at the given position 
     {
-
+        if (i<0 || size>=size()){
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode temp = head;
+        int loc = 1;
+        Object oldVal = null;
+        while (temp != null)
+        {
+            if (loc==i){
+                oldVal = temp.getValue();
+                temp.setValue(obj);
+                break;
+            }// end if
+            loc++;
+            temp = temp.getNext();
+        }// end while
+        return oldVal;
     }
 
     public Object get(int i) //– returns the information stored as the value of the ListNode element at a given position 
     {
-
+        if (i<0 || i>=size()){
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode temp = head;
+        int number = 1;
+        Object back = null;
+        while (temp != null)
+        {
+            if (number==i){
+                back = temp.getValue();
+                break;
+            }// end if
+            number++;
+            temp = temp.getNext();
+        }// end while
+        return back;
     }
 
     public Object remove(int i) //– removes the ListNode element at the given position leaving the rest of the LinkedList intact
@@ -79,17 +110,39 @@ public class MyLinkedList
 
     public Object removeFirst() //– removes the ListNode element at the beginning of the LinkedList and returns the value of the node
     {
-
+        ListNode temp = head.getValue();
+        Object val = new Object();
+        val = head.getValue();
+        temp = temp.getNext();
+        return val;
+        
     }
 
     public Object removeLast()//– removes the ListNode element at the end of the LinkedList and returns the value of the node
     {
+        ListNode temp = head.getValue();
+        while (temp.getNext().getNext() != null){
+            temp = temp.getNext();
+        }// end loop
+        temp.setNext(null);
+        return null;
+        
 
     }
 
     public String toString() //– returns a String representation of the LinkedList in the following format:
     {
-
-    }
+        ListNode temp = head;
+        int tempCount = 1;
+        String out = "";
+        while (temp != null)
+        {
+            
+            out = out+tempCount+": "+temp.getValue();
+            temp = temp.getNext();
+            tempCount++;
+        }// end loop
+        return out;
+    }// end toString
 
 }
