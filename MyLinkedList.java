@@ -12,14 +12,8 @@ public class MyLinkedList
         size = 0;
     } // end Constructor
     
-    public int size() //– returns the current # of ListNode elements in the LinkedList
-    {
-        ListNode temp = head;
-        while (temp != null)
-        {
-            temp = temp.getNext();
-            size++;
-        }// end while
+    public int size(){ //– returns the current # of ListNode elements in the LinkedList
+
         return size;
 
     }// end size
@@ -36,12 +30,15 @@ public class MyLinkedList
 
     public boolean add(Object obj)// – adds a ListNode element to the end of the LinkedList, always returns true.
     {
-       ListNode temp = head.getValue();
+       ListNode temp = head;
        if (head!=null){
             while(temp.getNext()!=null){
                     temp = temp.getNext();
             }
-        }// end if statement 
+        }// end if statement
+        else{
+            head = new ListNode(obj,null);
+        }
         temp.setNext(new ListNode(obj,null));
         return true;
         
@@ -50,11 +47,12 @@ public class MyLinkedList
     public boolean addFirst(Object obj) //– adds a ListNode element to the beginning of the LinkedList
     {
         head = new ListNode(obj,head);
+        return true;
     }// end addFirst;
 
     public boolean addLast(Object obj) //– adds a ListNode element to the end of the LinkedList
     {
-        ListNode temp = head.getValue();
+        ListNode temp = head;
         while(temp.getNext()!=null){
             temp = temp.getNext();
         }
@@ -89,7 +87,7 @@ public class MyLinkedList
             throw new IndexOutOfBoundsException();
         }
         ListNode temp = head;
-        int number = 1;
+        int number = 0;
         Object back = null;
         while (temp != null)
         {
@@ -105,12 +103,25 @@ public class MyLinkedList
 
     public Object remove(int i) //– removes the ListNode element at the given position leaving the rest of the LinkedList intact
     {
-
+        if (i<0 || i>=size()){
+            throw new IndexOutOfBoundsException();
+        }// end if 
+        else{
+            ListNode temp = head;
+            for (int x = 0; x<i-1;x++){
+                temp=temp.getNext();
+            }
+            ListNode altTemp = temp.getNext();
+            Object ret = altTemp.getValue();
+            altTemp.setNext(null);
+            size--;
+            return ret;
+        }
     }
 
     public Object removeFirst() //– removes the ListNode element at the beginning of the LinkedList and returns the value of the node
     {
-        ListNode temp = head.getValue();
+        ListNode temp = head;
         Object val = new Object();
         val = head.getValue();
         temp = temp.getNext();
@@ -120,7 +131,7 @@ public class MyLinkedList
 
     public Object removeLast()//– removes the ListNode element at the end of the LinkedList and returns the value of the node
     {
-        ListNode temp = head.getValue();
+        ListNode temp = head;
         while (temp.getNext().getNext() != null){
             temp = temp.getNext();
         }// end loop
@@ -138,7 +149,7 @@ public class MyLinkedList
         while (temp != null)
         {
             
-            out = out+tempCount+": "+temp.getValue();
+            out = out+tempCount+": "+temp.getValue()+"\n";
             temp = temp.getNext();
             tempCount++;
         }// end loop
