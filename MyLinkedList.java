@@ -31,15 +31,16 @@ public class MyLinkedList
     public boolean add(Object obj)// – adds a ListNode element to the end of the LinkedList, always returns true.
     {
        ListNode temp = head;
-       if (head!=null){
-            while(temp.getNext()!=null){
-                    temp = temp.getNext();
-            }
+       if (size==0){
+            head = new ListNode(obj,null);
         }// end if statement
         else{
-            head = new ListNode(obj,null);
-        }
-        temp.setNext(new ListNode(obj,null));
+            while(temp.getNext()!=null){
+                temp = temp.getNext();
+            }
+            temp.setNext(new ListNode(obj,null));
+        }// end else
+        size++;
         return true;
         
     }// end add
@@ -47,38 +48,28 @@ public class MyLinkedList
     public boolean addFirst(Object obj) //– adds a ListNode element to the beginning of the LinkedList
     {
         head = new ListNode(obj,head);
+        size++;
         return true;
     }// end addFirst;
 
     public boolean addLast(Object obj) //– adds a ListNode element to the end of the LinkedList
     {
-        ListNode temp = head;
-        while(temp.getNext()!=null){
-            temp = temp.getNext();
-        }
-        temp.setNext(new ListNode(obj,null));
+        add(obj);
         return true;
     }// end addlast
 
     public Object set(int i, Object obj) //– changes the information stored as the value of the ListNode element at the given position 
     {
-        if (i<0 || size>=size()){
+        ListNode temp = head;
+        if (i<0 || size>size()){
             throw new IndexOutOfBoundsException();
         }
-        ListNode temp = head;
-        int loc = 1;
-        Object oldVal = null;
-        while (temp != null)
-        {
-            if (loc==i){
-                oldVal = temp.getValue();
-                temp.setValue(obj);
-                break;
-            }// end if
-            loc++;
-            temp = temp.getNext();
-        }// end while
-        return oldVal;
+        for (int x = 0; x<i; x++){
+            temp= temp.getNext();
+        }
+        Object retVal = temp.getValue();
+        temp.setValue(obj);
+        return retVal;
     }
 
     public Object get(int i) //– returns the information stored as the value of the ListNode element at a given position 
@@ -125,18 +116,24 @@ public class MyLinkedList
         Object val = new Object();
         val = head.getValue();
         temp = temp.getNext();
+        size--;
         return val;
         
     }
 
     public Object removeLast()//– removes the ListNode element at the end of the LinkedList and returns the value of the node
     {
+        if(size==0){
+            return null;
+        }
         ListNode temp = head;
         while (temp.getNext().getNext() != null){
             temp = temp.getNext();
         }// end loop
+        Object out = temp.getNext().getValue();
         temp.setNext(null);
-        return null;
+        size--;
+        return out;
         
 
     }
